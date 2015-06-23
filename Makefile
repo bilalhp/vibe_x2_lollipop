@@ -3,14 +3,10 @@ KERNEL_PATH=$(shell pwd)/X2_ROW_L_OpenSource/kernel-3.10/
 DIST_PATH=dist/
 IMAGE_NAME=boot_bilal.img
 
-export ARCH=arm
-
-export PATH
-
 all: build package push flash
 	@true
 
-config:
+defconfig:
 	cd ${KERNEL_PATH}; make x2eu_defconfig ARCH=arm CROSS_COMPILE=arm-eabi-
 
 build:

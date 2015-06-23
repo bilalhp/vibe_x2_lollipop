@@ -2,5 +2,6 @@
 
 TOOLCHAIN_PATH=${PWD}/toolchain/
 PATH=${PATH}:${TOOLCHAIN_PATH}/arm-eabi-4.8/bin
+ARCH=arm
 
-export TOOLCHAIN_PATH PATH
+export TOOLCHAIN_PATH PATH ARCH
