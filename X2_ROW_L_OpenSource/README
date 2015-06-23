@@ -1,0 +1,34 @@
+ld Platform Packages (./platform folder):
+1. Get Android Open Source code;
+
+Branch: Android-5.0.2
+
+Sync code command:
+repo init -u https://android.googlesource.com/platform/manifest.git -b android-5.0.2_r3
+repo sync
+
+Build command for Android Open Source code:
+source build/envsetup.sh
+lunch aosp_arm-user
+make
+
+2. Copy module that you want to build to original android open source;
+
+3. Build the module on Android Open Source code;
+
+==============================
+
+
+Build Kernel (./kernel-3.10 folder):
+
+Command:
+PATH=${PATH}:/AOSP_Code/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/
+export ARCH=arm
+make x2eu_defconfig ARCH=arm CROSS_COMPILE=arm-eabi- (or make x2ap_defconfig ARCH=arm CROSS_COMPILE=arm-eabi-)
+make  ARCH=arm CROSS_COMPILE=arm-eabi-
+
+
+
+==============================
+
+Contact Lenovo support for information on obtaining Open Source code.

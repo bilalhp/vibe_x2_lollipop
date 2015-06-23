@@ -1,0 +1,2 @@
+obj-y += mali_kbase_config_mt6752.o
+obj-y += mali_kbase_cpu_mt6752.o

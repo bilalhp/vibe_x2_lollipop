@@ -1,0 +1,27 @@
+$(info mali MTK evironment)
+
+#build support for a ARM Mali Midgard GPU
+CONFIG_MALI_MIDGARD := y
+
+#use mt6752 platform
+CONFIG_MALI_PLATFORM_THIRDPARTY := n
+CONFIG_MALI_PLATFORM_THIRDPARTY_NAME := vexpress
+
+CONFIG_MALI_PLATFORM_FAKE := y
+
+CONFIG_MALI_PLATFORM_VEXPRESS := y
+CONFIG_MALI_DEBUG := y
+
+ccflags-y += -DCONFIG_MALI_PLATFORM_FAKE
+
+#Add include path for kernel 3.10
+ccflags-y += -I$(srctree)/drivers/staging/android/      \
+             -I$(srctree)/drivers/misc/mediatek/gpu/include/
+
+#ccflags-y += -I$(src)/../../../../../../../../../../../kernel/drivers/staging/android
+#ccflags-y += -I$(src)/../../../../include
+
+ccflags-y += -DCONFIG_MALI_DEBUG
+
+# ION driver
+#ccflags-y += -I$(srctree)/drivers/staging/android/ion
