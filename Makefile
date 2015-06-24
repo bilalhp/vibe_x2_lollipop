@@ -1,9 +1,11 @@
 
 KERNEL_PATH=$(shell pwd)/X2_ROW_L_OpenSource/kernel-3.10/
 DIST_PATH=dist/
-IMAGE_NAME=boot_bilal.img
+IMAGE_NAME=boot.img
 
-all: build package push flash
+.PHONY: all defconfig build package push flash ramdisk_unpack ramdisk_pack dist_clean clean
+
+all: build package push flash 
 	@true
 
 defconfig:
@@ -12,7 +14,7 @@ defconfig:
 build:
 	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi-
 
-package:
+package: ${DIST_PATH}/initrd.img
 	sed -i '/^bootsize/d' ${DIST_PATH}/bootimg.cfg
 	cd ${DIST_PATH}; abootimg --create ${IMAGE_NAME} -f bootimg.cfg -k ${KERNEL_PATH}/arch/arm/boot/zImage-dtb -r initrd.img
 
@@ -27,12 +29,12 @@ ramdisk_unpack:
 	cd ${DIST_PATH}; abootimg -x ${IMAGE_NAME}
 	cd ${DIST_PATH}; abootimg-unpack-initrd initrd.img
 
-ramdisk_pack:
+ramdisk_pack ${DIST_PATH}/initrd.img:
 	cd ${DIST_PATH}; rm -f initrd.img
 	cd ${DIST_PATH}; abootimg-pack-initrd
 
 dist_clean:
-	rm -rf ${DIST_PATH}/ramdisk/ zImage
+	cd ${DIST_PATH}; rm -f initrd.img
 
 clean: dist_clean
 	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi- clean

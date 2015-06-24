@@ -1,0 +1,10 @@
+Make sure you cloned the sources with --recursive option, or checkout the submodules (where toolchain stays) using:
+
+git submodule update --init --recursive
+
+To compile the kernel:
+
+source environment
+make defconfig build package
+
+After successful compilation, boot.img will be created in dist/ folder.
