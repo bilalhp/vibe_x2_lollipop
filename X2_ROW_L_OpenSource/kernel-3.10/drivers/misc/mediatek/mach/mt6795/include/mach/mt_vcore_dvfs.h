@@ -98,7 +98,7 @@ extern bool vcorefs_is_95m_segment(void);	/* phased out */
 	((pmic) * VCORE_STEP_UV + VCORE_BASE_UV)
 
 #define VCORE_1_P_125_UV	1125000
-#define VCORE_1_P_0_UV		990000
+#define VCORE_1_P_0_UV		1000000
 
 #define VCORE_1_P_125		vcore_uv_to_pmic(VCORE_1_P_125_UV)	/* 0x44 */
 #define VCORE_1_P_0		vcore_uv_to_pmic(VCORE_1_P_0_UV)	/* 0x30 */

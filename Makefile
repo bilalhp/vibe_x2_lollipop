@@ -11,6 +11,9 @@ all: dist_clean build package push flash
 defconfig:
 	cd ${KERNEL_PATH}; make x2eu_bilal_defconfig ARCH=arm CROSS_COMPILE=arm-eabi-
 
+saveconfig:
+	cd ${KERNEL_PATH}; cp .config arch/arm/configs/x2eu_bilal_defconfig
+
 build:
 	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi-
 
