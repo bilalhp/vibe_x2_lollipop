@@ -37,4 +37,4 @@ dist_clean:
 	cd ${DIST_PATH}; rm -f initrd.img
 
 clean: dist_clean
-	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi- clean
+	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi- mrproper
