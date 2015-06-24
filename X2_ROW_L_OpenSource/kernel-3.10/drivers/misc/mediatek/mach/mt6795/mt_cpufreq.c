@@ -1151,7 +1151,7 @@ struct turbo_mode_cfg {
 	[TURBO_MODE_NONE] = {
 		.temp = 125000,
 		.freq_delta = 0,
-		.volt_delta = 0,
+		.volt_delta = -20,
 	},
 };
 

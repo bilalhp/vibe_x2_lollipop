@@ -5,7 +5,7 @@ IMAGE_NAME=boot.img
 
 .PHONY: all defconfig build package push flash ramdisk_unpack ramdisk_pack dist_clean clean
 
-all: build package push flash 
+all: dist_clean build package push flash 
 	@true
 
 defconfig:
@@ -14,7 +14,7 @@ defconfig:
 build:
 	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi-
 
-package: ${DIST_PATH}/initrd.img
+package: dist_clean ${DIST_PATH}/initrd.img
 	sed -i '/^bootsize/d' ${DIST_PATH}/bootimg.cfg
 	cd ${DIST_PATH}; abootimg --create ${IMAGE_NAME} -f bootimg.cfg -k ${KERNEL_PATH}/arch/arm/boot/zImage-dtb -r initrd.img
 
@@ -23,7 +23,7 @@ push:
 
 flash:
 	adb shell su -c 'dd if=/sdcard/${IMAGE_NAME} of=/dev/block/platform/mtk-msdc.0/by-name/boot'
-	adb shell su -c 'reboot'
+	adb reboot
 
 ramdisk_unpack:
 	cd ${DIST_PATH}; abootimg -x ${IMAGE_NAME}

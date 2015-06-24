@@ -750,11 +750,11 @@ service bootlogoupdater /system/bin/boot_logo_updater
     class core
     oneshot
 
-service mobile_log_d /system/bin/mobile_log_d
-    class main
+#service mobile_log_d /system/bin/mobile_log_d
+#    class main
 
-service met_log_d /system/bin/met_log_d
-    class main
+#service met_log_d /system/bin/met_log_d
+#    class main
 
 service bugreport /system/bin/dumpstate -d -p -B \
         -o /data/data/com.android.shell/files/bugreports/bugreport
@@ -1101,47 +1101,47 @@ service GoogleOtaAgent /system/bin/GoogleOtaBinder
     user system
     group system
 
-service mdlogger /system/bin/mdlogger
-    class main
-    user shell
-    group shell system radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
+#service mdlogger /system/bin/mdlogger
+#    class main
+#    user shell
+#    group shell system radio sdcard_rw inet sdcard_r media_rw
+#    disabled
+#    oneshot
 
-service dualmdlogger /system/bin/dualmdlogger
-    class main
-    user shell
-    group shell system radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
+#service dualmdlogger /system/bin/dualmdlogger
+#    class main
+#    user shell
+#    group shell system radio sdcard_rw inet sdcard_r media_rw
+#    disabled
+#    oneshot
 
-service emdlogger1 /system/bin/emdlogger1
-    class main
-    user shell
-    group system shell radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
+#service emdlogger1 /system/bin/emdlogger1
+#    class main
+#    user shell
+#    group system shell radio sdcard_rw inet sdcard_r media_rw
+#    disabled
+#    oneshot
 
-service emdlogger2 /system/bin/emdlogger2
-    class main
-    user shell
-    group system shell radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
+#service emdlogger2 /system/bin/emdlogger2
+#    class main
+#    user shell
+#    group system shell radio sdcard_rw inet sdcard_r media_rw
+#    disabled
+#    oneshot
 
-service emdlogger5 /system/bin/emdlogger5
-    class main
-    user shell
-    group system shell radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
+#service emdlogger5 /system/bin/emdlogger5
+#    class main
+#    user shell
+#    group system shell radio sdcard_rw inet sdcard_r media_rw
+#    disabled
+#    oneshot
 
-service emdlogger6 /system/bin/emdlogger6
-    class main
-    user shell
-    group system shell radio sdcard_rw inet sdcard_r media_rw
-    disabled
-    oneshot
+#service emdlogger6 /system/bin/emdlogger6
+#    class main
+#    user shell
+#    group system shell radio sdcard_rw inet sdcard_r media_rw
+#    disabled
+#    oneshot
 
 #
 #sensor service (begin)
@@ -1290,20 +1290,20 @@ service NvRAMAgent /system/bin/nvram_agent_binder
     user system
     group system
 
-service thermal_manager /system/bin/thermal_manager
-    class main
-    user root
-    oneshot
+#service thermal_manager /system/bin/thermal_manager
+#    class main
+#    user root
+#    oneshot
 
-service thermal /system/bin/thermal
-    class main
-    user system
-    group system
+#service thermal /system/bin/thermal
+#    class main
+#    user system
+#    group system
 
-service thermald /system/bin/thermald
-    class main
-    user system
-    group system
+#service thermald /system/bin/thermald
+#    class main
+#    user system
+#    group system
 
 service sn /system/bin/sn
     class main
