@@ -9,7 +9,7 @@ all: build package push flash
 	@true
 
 defconfig:
-	cd ${KERNEL_PATH}; make x2eu_defconfig ARCH=arm CROSS_COMPILE=arm-eabi-
+	cd ${KERNEL_PATH}; make x2eu_bilal_defconfig ARCH=arm CROSS_COMPILE=arm-eabi-
 
 build:
 	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi-
