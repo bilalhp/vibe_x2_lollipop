@@ -1057,9 +1057,9 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 	unsigned state;
 
 	state = t->state ? __ffs(t->state) + 1 : 0;
-	printk(KERN_DEBUG "[%d:%s] sig %d to [%d:%s] stat=%c\n",
+	/*printk(KERN_DEBUG "[%d:%s] sig %d to [%d:%s] stat=%c\n",
 	       current->pid, current->comm, sig, t->pid, t->comm,
-	       state < sizeof(stat_nam) - 1 ? stat_nam[state] : '?');
+	       state < sizeof(stat_nam) - 1 ? stat_nam[state] : '?');*/
 	assert_spin_locked(&t->sighand->siglock);
 
 	result = TRACE_SIGNAL_IGNORED;

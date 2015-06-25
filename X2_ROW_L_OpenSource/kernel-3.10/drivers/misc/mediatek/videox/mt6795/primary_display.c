@@ -69,7 +69,7 @@ DISP_PRIMARY_PATH_MODE primary_display_mode = DIRECT_LINK_MODE;
 
 static unsigned long dim_layer_mva = 0;
 
-typedef void (*fence_release_callback) (unsigned int data);
+typedef int (*fence_release_callback) (unsigned int data);
 static disp_internal_buffer_info *decouple_buffer_info[DISP_INTERNAL_BUFFER_COUNT];
 static RDMA_CONFIG_STRUCT decouple_rdma_config;
 static WDMA_CONFIG_STRUCT decouple_wdma_config;
@@ -2685,7 +2685,7 @@ static struct task_struct *fence_release_worker_task = NULL;
 
 extern unsigned int ddp_ovl_get_cur_addr(bool rdma_mode, int layerid );
 
-static void _wdma_fence_release_callback(uint32_t userdata)
+static int _wdma_fence_release_callback(uint32_t userdata)
 {
     int fence_idx, subtractor, layer;
     layer = disp_sync_get_output_timeline_id();
@@ -2694,10 +2694,10 @@ static void _wdma_fence_release_callback(uint32_t userdata)
     mtkfb_release_fence(primary_session_id, layer, fence_idx);
     MMProfileLogEx(ddp_mmp_get_events()->primary_wdma_fence_release, MMProfileFlagPulse, layer, fence_idx);
 
-    return;
+    return 0;
 }
 
-static void _Interface_fence_release_callback(uint32_t userdata)
+static int _Interface_fence_release_callback(uint32_t userdata)
 {
     int  layer = disp_sync_get_output_interface_timeline_id();
     
@@ -2706,10 +2706,10 @@ static void _Interface_fence_release_callback(uint32_t userdata)
         MMProfileLogEx(ddp_mmp_get_events()->primary_wdma_fence_release, MMProfileFlagPulse, layer, userdata);
     }
 
-    return;
+    return 0;
 }
 
-static void _ovl_fence_release_callback(uint32_t userdata)
+static int _ovl_fence_release_callback(uint32_t userdata)
 {
     int i = 0;
     unsigned int addr = 0;
@@ -2771,7 +2771,7 @@ static void _ovl_fence_release_callback(uint32_t userdata)
     }
     _primary_path_unlock(__func__);
 
-    return;
+    return 0;
 }
 
 
@@ -5655,7 +5655,7 @@ int disp_hal_allocate_framebuffer(phys_addr_t pa_start, phys_addr_t pa_end, unsi
 
 int primary_display_remap_irq_event_map(void)
 {
-
+	
 }
 
 unsigned int primary_display_get_option(const char* option)

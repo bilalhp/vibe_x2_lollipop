@@ -5317,7 +5317,7 @@ DEBUG_STATIC void cmdq_core_auto_release_work(struct work_struct *workItem)
 			CMDQ_VERBOSE("[Auto Release] call user callback %p with data 0x%08x\n",
 				     finishCallback, userData);
 			if (0 > finishCallback(userData)) {
-				CMDQ_LOG("[DEBUG]user complains execution abnormal, dump command...\n");
+				CMDQ_LOG("[DEBUG]user complains execution abnormal, dump command... callback %p\n", finishCallback);
 				CMDQ_LOG("======TASK 0x%p command (%d) START\n", pTask, commandSize);
 				cmdqCoreDumpCommandMem(pCmd, commandSize);
 				CMDQ_LOG("======TASK 0x%p command END\n", pTask);

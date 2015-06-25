@@ -483,12 +483,12 @@ die_sig:
 	/* Place the SIGILL ICache Invalidate after the Debugger Undefined-Instruction Solution. */
 	if ((processor_mode(regs) == USR_MODE) || (processor_mode(regs) == SVC_MODE)) {
                 /* Only do it for User-Space Application. */
-		printk("USR_MODE/SVC_MODE Undefined Instruction Address curr:%p pc=%p:%p\n",
-			(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
+		//printk("USR_MODE/SVC_MODE Undefined Instruction Address curr:%p pc=%p:%p\n",
+		//	(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
 		if ((prev_undefinstr_pc != pc) || (prev_undefinstr_curr != (unsigned long)current)) {
 			/* If the current process or program counter is changed......renew the counter. */
-			printk("First Time Recovery curr:%p pc=%p:%p\n",
-				(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
+			//printk("First Time Recovery curr:%p pc=%p:%p\n",
+			//	(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
 			prev_undefinstr_pc = pc;
 			prev_undefinstr_curr = (unsigned long)current;
 			prev_undefinstr_counter = 0;
@@ -500,8 +500,8 @@ die_sig:
 			return;
 		}
 		else if(prev_undefinstr_counter < 1) {
-			printk("2nd Time Recovery curr:%p pc=%p:%p\n",
-				(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
+			//printk("2nd Time Recovery curr:%p pc=%p:%p\n",
+			//	(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
 			prev_undefinstr_counter++;
 			__cpuc_flush_icache_all();
 			flush_cache_all();
@@ -517,8 +517,8 @@ die_sig:
 			prev_undefinstr_curr = 0;
 			prev_undefinstr_counter = 0;
 		}
-		printk("Go to ARM Notify Die curr:%p pc=%p:%p\n",
-			(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
+		//printk("Go to ARM Notify Die curr:%p pc=%p:%p\n",
+		//	(void *)current, (void *)pc, (void *)prev_undefinstr_pc);
 	}
 
 	info.si_signo = SIGILL;

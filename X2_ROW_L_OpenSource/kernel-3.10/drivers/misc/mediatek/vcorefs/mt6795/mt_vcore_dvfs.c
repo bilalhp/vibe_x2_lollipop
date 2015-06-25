@@ -155,8 +155,8 @@ static struct dvfs_opp opp_table1[] __nosavedata = {
 	},
 	{	/* OPP 1: low power mode */
 		.vcore_ao	= VCORE_1_P_0,
-		.vcore_pdn	= VCORE_1_P_0,
-		.vcore_nml	= VCORE_1_P_0,
+		.vcore_pdn	= 0x20,
+		.vcore_nml	= 0x20,
 		.ddr_khz	= FDDR_S2_KHZ,
 		.axi_khz	= FAXI_S2_KHZ,
 		.mm_khz		= FMM_S2_KHZ,
@@ -226,6 +226,8 @@ static u32 get_vcore_pdn(void)
 
 static void __update_vcore_ao_pdn(struct pwr_ctrl *pwrctrl, int steps)
 {
+	vcorefs_crit("steps=%d pwrctrl->curr_vcore_ao=%d pwrctrl->curr_vcore_pdn=%d\n", steps, pwrctrl->curr_vcore_ao, pwrctrl->curr_vcore_pdn);
+
 	mt_cpufreq_set_pmic_cmd(PMIC_WRAP_PHASE_NORMAL, IDX_NM_VCORE_AO, pwrctrl->curr_vcore_ao);
 	mt_cpufreq_set_pmic_cmd(PMIC_WRAP_PHASE_NORMAL, IDX_NM_VCORE_PDN, pwrctrl->curr_vcore_pdn);
 
@@ -238,7 +240,9 @@ static void __update_vcore_ao_pdn(struct pwr_ctrl *pwrctrl, int steps)
 
 	if (pwrctrl->dma_dummy_read) {
 		int loops = (DRAM_WINDOW_SHIFT_MAX + (steps - 1)) / steps;
+		vcorefs_crit("loops=%d\n", loops);
 		dma_dummy_read_for_vcorefs(loops);	/* for DQS gating window tracking */
+		vcorefs_crit("DONE loops=%d\n", loops);
 	} else {
 		udelay(DVFS_CMD_SETTLE_US);
 	}
@@ -285,10 +289,16 @@ static void set_vcore_ao_pdn(struct pwr_ctrl *pwrctrl, u32 vcore_ao, u32 vcore_p
 	vcorefs_crit("curr_ao = 0x%x, curr_pdn = 0x%x\n",
 		     pwrctrl->curr_vcore_ao, pwrctrl->curr_vcore_pdn);
 
-	BUG_ON(pwrctrl->curr_vcore_ao != vcore_ao ||
-	       pwrctrl->curr_vcore_pdn != vcore_pdn);
+	/*BUG_ON(pwrctrl->curr_vcore_ao != vcore_ao ||
+	       pwrctrl->curr_vcore_pdn != vcore_pdn);*/
+
+	if (pwrctrl->curr_vcore_ao != vcore_ao || pwrctrl->curr_vcore_pdn != vcore_pdn) {
+		vcorefs_crit("ERROR\n");
+	}
+	vcorefs_crit("pwrctrl->curr_vcore_ao=%d vcore_ao=%d pwrctrl->curr_vcore_pdn=%d vcore_pdn=%d\n", pwrctrl->curr_vcore_ao, vcore_ao, pwrctrl->curr_vcore_pdn, vcore_pdn);
 
 #if VCORE_SET_CHECK
+#error asd
 	vcore_ao = get_vcore_ao();
 	vcore_pdn = get_vcore_pdn();
 	vcorefs_debug("hw_ao = 0x%x, hw_pdn = 0x%x\n", vcore_ao, vcore_pdn);
