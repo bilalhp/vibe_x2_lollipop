@@ -143,6 +143,7 @@ struct pwr_ctrl {
 /* NOTE: __nosavedata will not be restored after IPO-H boot */
 
 static struct dvfs_opp opp_table1[] __nosavedata = {
+#if 0
 	{	/* OPP 0: performance mode */
 		.vcore_ao	= VCORE_1_P_125,
 		.vcore_pdn	= VCORE_1_P_125,
@@ -153,10 +154,22 @@ static struct dvfs_opp opp_table1[] __nosavedata = {
 		.venc_khz	= FVENC_S1_KHZ,
 		.vdec_khz	= FVDEC_S1_KHZ,
 	},
+#else
 	{	/* OPP 1: low power mode */
 		.vcore_ao	= VCORE_1_P_0,
-		.vcore_pdn	= 0x20,
-		.vcore_nml	= 0x20,
+		.vcore_pdn	= VCORE_1_P_0,
+		.vcore_nml	= VCORE_1_P_0,
+		.ddr_khz	= FDDR_S2_KHZ,
+		.axi_khz	= FAXI_S2_KHZ,
+		.mm_khz		= FMM_S2_KHZ,
+		.venc_khz	= FVENC_S2_KHZ,
+		.vdec_khz	= FVDEC_S2_KHZ,
+	},
+#endif
+	{	/* OPP 1: low power mode */
+		.vcore_ao	= VCORE_1_P_0,
+		.vcore_pdn	= VCORE_1_P_0,
+		.vcore_nml	= VCORE_1_P_0,
 		.ddr_khz	= FDDR_S2_KHZ,
 		.axi_khz	= FAXI_S2_KHZ,
 		.mm_khz		= FMM_S2_KHZ,

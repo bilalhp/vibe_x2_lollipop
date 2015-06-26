@@ -896,7 +896,7 @@ static struct mt_cpu_dvfs cpu_dvfs[] = { // TODO: FIXME, big/LITTLE exclusive, N
 
 		.ramp_down_count_const		= RAMP_DOWN_TIMES,
 
-		.turbo_mode			= 5,
+		.turbo_mode			= 4,
 
 		.idx_opp_tbl_for_pwr_thro	= -1,
 	},

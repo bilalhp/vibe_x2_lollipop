@@ -21,10 +21,8 @@ package: dist_clean ${DIST_PATH}/initrd.img
 	sed -i '/^bootsize/d' ${DIST_PATH}/bootimg.cfg
 	cd ${DIST_PATH}; abootimg --create ${IMAGE_NAME} -f bootimg.cfg -k ${KERNEL_PATH}/arch/arm/boot/zImage-dtb -r initrd.img
 
-push:
-	adb push ${DIST_PATH}/${IMAGE_NAME} /sdcard/
-
 flash:
+	adb push ${DIST_PATH}/${IMAGE_NAME} /sdcard/
 	adb shell su -c 'dd if=/sdcard/${IMAGE_NAME} of=/dev/block/platform/mtk-msdc.0/by-name/boot'
 	adb reboot
 
