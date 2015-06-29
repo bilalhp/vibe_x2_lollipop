@@ -1232,8 +1232,6 @@ static enum turbo_mode get_turbo_mode(struct mt_cpu_dvfs *p, unsigned int target
 
 #ifdef CONFIG_CPU_DVFS_AEE_RR_REC
 
-	cpufreq_err("bilal selam\n");
-
 	if (TURBO_MODE_NONE != mode) {
 		if (cpu_dvfs_is(p, MT_CPU_DVFS_LITTLE))
 			*p_dvfs_state |= (1 << CPU_DVFS_LITTLE_IS_TURBO);
@@ -1250,7 +1248,7 @@ static enum turbo_mode get_turbo_mode(struct mt_cpu_dvfs *p, unsigned int target
 
 #endif
 
-	cpufreq_err("bilal %s() mode = %d, temp = %d, target_khz = %d (%d), num_online_cpus_little = %d, num_online_cpus_big = %d\n", __func__, mode, temp, target_khz, TURBO_MODE_FREQ(mode, target_khz), num_online_cpus_little, num_online_cpus_big); // <-XXX
+	cpufreq_err("%s() mode = %d, temp = %d, target_khz = %d (%d), num_online_cpus_little = %d, num_online_cpus_big = %d\n", __func__, mode, temp, target_khz, TURBO_MODE_FREQ(mode, target_khz), num_online_cpus_little, num_online_cpus_big); // <-XXX
 
 	return mode;
 }
@@ -2171,8 +2169,6 @@ static void _mt_cpufreq_set(enum mt_cpu_dvfs_id id, int new_opp_idx)
 
 	policy = cpufreq_cpu_get(p->cpu_id);
 
-	cpufreq_dbg("bilal:%s:%d id=%d new_opp_idx=%d\n", __func__, __LINE__, p->cpu_id, new_opp_idx);
-
 	if (policy) {
 		freqs.old = policy->cur;
 		freqs.new = mt_cpufreq_max_frequency_by_DVS(id, new_opp_idx);
@@ -2197,8 +2193,6 @@ static void _mt_cpufreq_set(enum mt_cpu_dvfs_id id, int new_opp_idx)
 
 	cur_freq = p->ops->get_cur_phy_freq(p);
 	target_freq = cpu_dvfs_get_freq_by_idx(p, new_opp_idx);
-
-	cpufreq_dbg("bilal:%s:%d id=%d new_opp_idx=%d cur_freq=%d target_freq=%d\n", __func__, __LINE__, p->cpu_id, new_opp_idx, cur_freq, target_freq);
 
 	/* enable FBB for CA15L before entering into first OPP */
 	if (id == MT_CPU_DVFS_BIG && 0 != p->idx_opp_tbl && 0 == new_opp_idx)
@@ -3597,7 +3591,6 @@ static unsigned int _calc_new_opp_idx(struct mt_cpu_dvfs *p, int new_opp_idx)
 
 		if (idx != -1 && new_opp_idx > idx) {
 			new_opp_idx = idx;
-			cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 			cpufreq_dbg("%s(): hevc limited freq, idx = %d\n", __func__, new_opp_idx);
 		}
 	}
@@ -3610,7 +3603,6 @@ static unsigned int _calc_new_opp_idx(struct mt_cpu_dvfs *p, int new_opp_idx)
 
 			if (idx != -1) {
 				new_opp_idx = idx;
-				cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 				cpufreq_dbg("%s(): downgrade freq, idx = %d\n", __func__, new_opp_idx);
 			}
 		}
@@ -3623,7 +3615,6 @@ static unsigned int _calc_new_opp_idx(struct mt_cpu_dvfs *p, int new_opp_idx)
 
 	if (idx != -1) {
 		new_opp_idx = idx;
-		cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 		cpufreq_dbg("%s(): thermal limited freq, idx = %d\n", __func__, new_opp_idx);
 	}
 
@@ -3636,14 +3627,12 @@ static unsigned int _calc_new_opp_idx(struct mt_cpu_dvfs *p, int new_opp_idx)
 	/* for early suspend */
 	if (p->limit_max_freq_early_suspend) {
 		new_opp_idx = p->idx_normal_max_opp; // (new_opp_idx < p->idx_normal_max_opp) ? p->idx_normal_max_opp : new_opp_idx;
-		cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 		cpufreq_dbg("%s(): for early suspend, idx = %d\n", __func__, new_opp_idx);
 	}
 
 	/* for suspend */
 	if (p->cpufreq_pause) {
 		new_opp_idx = p->idx_normal_max_opp;
-		cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 	}
 
 	/* for power throttling */
@@ -3652,13 +3641,11 @@ static unsigned int _calc_new_opp_idx(struct mt_cpu_dvfs *p, int new_opp_idx)
 			cpufreq_dbg("%s(): for power throttling = %d\n", __func__, CPU_DVFS_OPPIDX_806MHZ);
 
 		new_opp_idx = (new_opp_idx < CPU_DVFS_OPPIDX_806MHZ) ? CPU_DVFS_OPPIDX_806MHZ : new_opp_idx;
-		cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 	} else if (p->pwr_thro_mode & (PWR_THRO_MODE_LBAT_1365MHZ | PWR_THRO_MODE_BAT_PER_1365MHZ)) {
 		if (new_opp_idx < CPU_DVFS_OPPIDX_1365MHZ)
 			cpufreq_dbg("%s(): for power throttling = %d\n", __func__, CPU_DVFS_OPPIDX_1365MHZ);
 
 		new_opp_idx = (new_opp_idx < CPU_DVFS_OPPIDX_1365MHZ) ? CPU_DVFS_OPPIDX_1365MHZ : new_opp_idx;
-		cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 	}
 
 	if (   cpu_dvfs_is(p,MT_CPU_DVFS_LITTLE)
@@ -3668,7 +3655,6 @@ static unsigned int _calc_new_opp_idx(struct mt_cpu_dvfs *p, int new_opp_idx)
 	    )
 	{
 		new_opp_idx--;
-		cpufreq_dbg("bilal:%s:%d new_opp_idx=%d\n", __func__, __LINE__, new_opp_idx);
 	}
 #ifdef CONFIG_CPU_DVFS_AEE_RR_REC
 
@@ -3862,8 +3848,6 @@ static int _mt_cpufreq_target(struct cpufreq_policy *policy, unsigned int target
 
 	FUNC_ENTER(FUNC_LV_MODULE);
 
-	cpufreq_dbg("bilal:%s:%d policy->cpu=%d id=%d target_freq=%u relation=%d\n", __func__, __LINE__, policy->cpu, id, target_freq, relation);
-
 	if (policy->cpu >= num_possible_cpus() // TODO: FIXME
 	    || cpufreq_frequency_table_target(policy, id_to_cpu_dvfs(id)->freq_tbl_for_cpufreq, target_freq, relation, &new_opp_idx)
 	    || (id_to_cpu_dvfs(id) && id_to_cpu_dvfs(id)->is_fixed_freq)
@@ -3888,8 +3872,6 @@ static int _mt_cpufreq_target(struct cpufreq_policy *policy, unsigned int target
 		*p_dvfs_state |= (1 << CPU_DVFS_BIG_IS_DOING_DVFS);
 
 #endif
-
-	cpufreq_dbg("bilal:%s:%d id=%d new_opp_idx=%d\n", __func__, __LINE__, id, new_opp_idx);
 
 	_mt_cpufreq_set(id, new_opp_idx);
 

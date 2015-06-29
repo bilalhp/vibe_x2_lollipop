@@ -302,13 +302,8 @@ static void set_vcore_ao_pdn(struct pwr_ctrl *pwrctrl, u32 vcore_ao, u32 vcore_p
 	vcorefs_crit("curr_ao = 0x%x, curr_pdn = 0x%x\n",
 		     pwrctrl->curr_vcore_ao, pwrctrl->curr_vcore_pdn);
 
-	/*BUG_ON(pwrctrl->curr_vcore_ao != vcore_ao ||
-	       pwrctrl->curr_vcore_pdn != vcore_pdn);*/
-
-	if (pwrctrl->curr_vcore_ao != vcore_ao || pwrctrl->curr_vcore_pdn != vcore_pdn) {
-		vcorefs_crit("ERROR\n");
-	}
-	vcorefs_crit("pwrctrl->curr_vcore_ao=%d vcore_ao=%d pwrctrl->curr_vcore_pdn=%d vcore_pdn=%d\n", pwrctrl->curr_vcore_ao, vcore_ao, pwrctrl->curr_vcore_pdn, vcore_pdn);
+	BUG_ON(pwrctrl->curr_vcore_ao != vcore_ao ||
+	       pwrctrl->curr_vcore_pdn != vcore_pdn);
 
 #if VCORE_SET_CHECK
 #error asd
