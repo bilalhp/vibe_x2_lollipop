@@ -1,7 +1,7 @@
 #!/bin/sh
 
 TOOLCHAIN_PATH=${PWD}/toolchain/
-PATH=${PATH}:${TOOLCHAIN_PATH}/arm-eabi-4.8/bin
+PATH=${PATH}:${TOOLCHAIN_PATH}/ccache:${TOOLCHAIN_PATH}/arm-eabi-4.8/bin
 ARCH=arm
 
 export TOOLCHAIN_PATH PATH ARCH
