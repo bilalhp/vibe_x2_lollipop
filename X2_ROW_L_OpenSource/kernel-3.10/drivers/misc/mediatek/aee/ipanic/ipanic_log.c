@@ -39,6 +39,7 @@ EXPORT_SYMBOL(ipanic_kmsg_dump3);
 extern int log_buf_copy2(char *dest, int dest_len, int log_copy_start, int log_copy_end);
 #endif
 
+#ifdef CONFIG_PRINTK
 void ipanic_klog_region(struct kmsg_dumper *dumper)
 {
 	static struct ipanic_log_index next = { 0 };
@@ -62,6 +63,12 @@ void ipanic_klog_region(struct kmsg_dumper *dumper)
 	     dumper->next_idx, dumper->next_seq);
 #endif
 }
+#else
+void ipanic_klog_region(struct kmsg_dumper *dumper)
+{
+
+}
+#endif
 
 int ipanic_klog_buffer(void *data, unsigned char *buffer, size_t sz_buf)
 {

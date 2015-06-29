@@ -8,7 +8,7 @@ TOOLCHAIN=gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabi
 CROSS_COMPILE=arm-linux-gnueabi-
 
 TOOLCHAIN_PATH=${PWD}/toolchain/
-PATH=${PATH}:${TOOLCHAIN_PATH}/ccache:${TOOLCHAIN_PATH}/${TOOLCHAIN}/bin
+PATH=${PWD}/tools:${PATH}:${TOOLCHAIN_PATH}/ccache:${TOOLCHAIN_PATH}/${TOOLCHAIN}/bin
 ARCH=arm
 
 export TOOLCHAIN_PATH PATH ARCH CROSS_COMPILE

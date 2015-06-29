@@ -389,6 +389,7 @@ void mrdump_mini_ke_cpu_regs(struct pt_regs *regs)
 }
 EXPORT_SYMBOL(mrdump_mini_ke_cpu_regs);
 
+#ifdef CONFIG_PRINTK
 static void mrdump_mini_build_elf_misc(void)
 {
 	int i;
@@ -403,6 +404,12 @@ static void mrdump_mini_build_elf_misc(void)
 		mrdump_mini_add_misc(misc.vaddr, misc.size, misc.start, log_type[i]);
 	}
 }
+#else
+static void mrdump_mini_build_elf_misc(void)
+{
+
+}
+#endif
 extern raw_spinlock_t logbuf_lock;
 extern unsigned long *stack_trace;
 static void mrdump_mini_add_loads(void)
