@@ -9,13 +9,13 @@ all: dist_clean build package push flash
 	@true
 
 defconfig:
-	cd ${KERNEL_PATH}; make x2eu_bilal_defconfig ARCH=arm CROSS_COMPILE=arm-eabi-
+	cd ${KERNEL_PATH}; make x2eu_bilal_defconfig
 
 saveconfig:
 	cd ${KERNEL_PATH}; cp .config arch/arm/configs/x2eu_bilal_defconfig
 
 build:
-	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi-
+	cd ${KERNEL_PATH}; make -j8
 
 package: dist_clean ${DIST_PATH}/initrd.img
 	sed -i '/^bootsize/d' ${DIST_PATH}/bootimg.cfg
@@ -38,4 +38,4 @@ dist_clean:
 	cd ${DIST_PATH}; rm -f initrd.img
 
 clean: dist_clean
-	cd ${KERNEL_PATH}; make ARCH=arm CROSS_COMPILE=arm-eabi- mrproper
+	cd ${KERNEL_PATH}; make mrproper
