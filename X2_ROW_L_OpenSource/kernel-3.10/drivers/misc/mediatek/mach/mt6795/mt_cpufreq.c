@@ -871,7 +871,7 @@ static struct mt_cpu_dvfs cpu_dvfs[] = { // TODO: FIXME, big/LITTLE exclusive, N
 
 		.ramp_down_count_const		= RAMP_DOWN_TIMES,
 
-		.turbo_mode			= 2,
+		.turbo_mode			= 3,
 
 		.idx_opp_tbl_for_pwr_thro	= -1,
 	},
@@ -5105,13 +5105,15 @@ static int cpufreq_freq_proc_show(struct seq_file *m, void *v) // <-XXX
 	struct mt_cpu_dvfs *p;
 	unsigned int cur_vsram_mv;
 	int i, num_online_cpus_little, num_online_cpus_big;
+	int temp;
 
 	hps_get_num_online_cpus(&num_online_cpus_little, &num_online_cpus_big);
 
 	seq_printf(m, "online_little=%d online_big=%d\n", num_online_cpus_little, num_online_cpus_big);
 
 	for_each_cpu_dvfs(i, p) {
-		seq_printf(m, "%s freq=%d volt=%d\n", p->name, p->ops->get_cur_phy_freq(p), p->ops->get_cur_volt(p));
+		temp = tscpu_get_temp_by_bank(cpu_dvfs_is(p, MT_CPU_DVFS_LITTLE) ? THERMAL_BANK0 : THERMAL_BANK1);
+		seq_printf(m, "%s freq=%d volt=%d temp=%d\n", p->name, p->ops->get_cur_phy_freq(p), p->ops->get_cur_volt(p), temp);
 	}
 
 	cur_vsram_mv = get_cur_vsram_big(p);
@@ -5157,13 +5159,15 @@ static int cpufreq_volt_proc_show(struct seq_file *m, void *v) // <-XXX
 	struct mt_cpu_dvfs *p;
 	unsigned int cur_vsram_mv;
 	int i, num_online_cpus_little, num_online_cpus_big;
+	int temp;
 
 	hps_get_num_online_cpus(&num_online_cpus_little, &num_online_cpus_big);
 
 	seq_printf(m, "online_little=%d online_big=%d\n", num_online_cpus_little, num_online_cpus_big);
 
 	for_each_cpu_dvfs(i, p) {
-		seq_printf(m, "%s freq=%d volt=%d\n", p->name, p->ops->get_cur_phy_freq(p), p->ops->get_cur_volt(p));
+		temp = tscpu_get_temp_by_bank(cpu_dvfs_is(p, MT_CPU_DVFS_LITTLE) ? THERMAL_BANK0 : THERMAL_BANK1);
+		seq_printf(m, "%s freq=%d volt=%d temp=%d\n", p->name, p->ops->get_cur_phy_freq(p), p->ops->get_cur_volt(p), temp);
 	}
 
 	cur_vsram_mv = get_cur_vsram_big(p);
