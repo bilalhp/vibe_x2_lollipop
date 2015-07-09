@@ -143,7 +143,7 @@ struct pwr_ctrl {
 /* NOTE: __nosavedata will not be restored after IPO-H boot */
 
 static struct dvfs_opp opp_table1[] __nosavedata = {
-#if 0
+#if 1
 	{	/* OPP 0: performance mode */
 		.vcore_ao	= VCORE_1_P_125,
 		.vcore_pdn	= VCORE_1_P_125,
