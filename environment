@@ -1,11 +1,11 @@
 #!/bin/sh
 
 # Android Toolchain
-#TOOLCHAIN=arm-eabi-4.8
-#CROSS_COMPILE=arm-eabi-
+TOOLCHAIN=arm-eabi-4.8
+CROSS_COMPILE=arm-eabi-
 # Linaro Toolchain
-TOOLCHAIN=gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabi
-CROSS_COMPILE=arm-linux-gnueabi-
+#TOOLCHAIN=gcc-linaro-4.9-2015.02-3-x86_64_arm-linux-gnueabi
+#CROSS_COMPILE=arm-linux-gnueabi-
 
 TOOLCHAIN_PATH=${PWD}/toolchain/
 PATH=${PWD}/tools:${PATH}:${TOOLCHAIN_PATH}/ccache:${TOOLCHAIN_PATH}/${TOOLCHAIN}/bin
